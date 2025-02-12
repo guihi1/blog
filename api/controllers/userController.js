@@ -1,3 +1,7 @@
+import bcrypt from 'bcrypt';
+import { generateToken } from '../utils/auth.js';
+import * as userService from '../services/userService.js';
+
 const getUsers = (req, res) => {
   res.json({ message: 'GET /users' });
 };
@@ -6,8 +10,40 @@ const getUserById = (req, res) => {
   res.json({ message: 'GET /users/:userId' });
 };
 
-const createUser = (req, res) => {
-  res.json({ message: 'POST /users' });
+const registerUser = async (req, res) => {
+  const { email, password, username } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    const user = await userService.createUser(email, hashedPassword, username);
+    const token = generateToken(user.id);
+    res.status(201).json({ token });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await userService.getUserByEmail(email);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    const token = generateToken(user.id);
+    res.status(201).json({ token });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 const updateUser = (req, res) => {
@@ -18,4 +54,11 @@ const deleteUser = (req, res) => {
   res.json({ message: 'DELETE /users/:userId' });
 };
 
-export { getUsers, getUserById, createUser, updateUser, deleteUser };
+export {
+  getUsers,
+  getUserById,
+  registerUser,
+  updateUser,
+  deleteUser,
+  loginUser,
+};
