@@ -25,4 +25,13 @@ async function getUserByEmail(email) {
   return user;
 }
 
+async function getUserById(userId) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: parseInt(userId),
+    },
+  });
+  return user;
+}
+
 export { getUsers, createUser, getUserByEmail };

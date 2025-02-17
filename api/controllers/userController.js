@@ -3,11 +3,23 @@ import { generateToken } from '../utils/auth.js';
 import * as userService from '../services/userService.js';
 
 const getUsers = (req, res) => {
-  res.json({ message: 'GET /users' });
+  try {
+    const users = userService.getUsers();
+    res.json(users);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 const getUserById = (req, res) => {
-  res.json({ message: 'GET /users/:userId' });
+  const { userId } = req.params;
+
+  try {
+    const user = userService.getUserById(userId);
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 const registerUser = async (req, res) => {
