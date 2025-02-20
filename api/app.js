@@ -14,8 +14,8 @@ app.use(express.json()); // For parsing JSON bodies
 app.use('/users', routes.user);
 app.use('/posts', routes.post);
 app.use('/comments', routes.comment);
-app.use('/auth', routes.auth);
+app.use('/', routes.auth);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+	console.log(`Server is running on port ${port}`);
 });
