@@ -2,20 +2,20 @@ import bcrypt from 'bcrypt';
 import { generateToken } from '../utils/auth.js';
 import * as userService from '../services/userService.js';
 
-const getUsers = (req, res) => {
+const getUsers = async (req, res) => {
 	try {
-		const users = userService.getUsers();
+		const users = await userService.getUsers();
 		res.json(users);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}
 };
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
 	const { userId } = req.params;
 
 	try {
-		const user = userService.getUserById(userId);
+		const user = await userService.getUserById(userId);
 		res.json(user);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
@@ -69,7 +69,7 @@ const updateUserRole = async (req, res) => {
 	res.json({ message: `User role updated to ${role}`, user });
 };
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
 	res.json({ message: 'DELETE /users/:userId' });
 };
 
