@@ -5,8 +5,6 @@ const router = Router();
 
 router.get('/', commentController.getComments);
 
-router.get('/:commentId', commentController.getCommentById);
-
 router.post('/', commentController.createComment);
 
 router.put('/:commentId', commentController.updateComment);
