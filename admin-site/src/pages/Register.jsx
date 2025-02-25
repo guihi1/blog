@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 	const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const Register = () => {
 		password: '',
 		confirmPassword: '',
 	});
+	const navigate = useNavigate();
 
 	const [error, setError] = useState('');
 	const [success, setSuccess] = useState('');
@@ -39,6 +41,7 @@ const Register = () => {
 
 			if (!response.ok) throw new Error(data.message || 'Registration failed!');
 
+			localStorage.setItem('token', data.token);
 			setSuccess('User registered successfully!');
 			setFormData({
 				email: '',
@@ -46,6 +49,7 @@ const Register = () => {
 				password: '',
 				confirmPassword: '',
 			});
+			setTimeout(() => navigate('/dashboard'), 1500);
 		} catch (err) {
 			setError(err.message);
 		}
