@@ -33,7 +33,7 @@ const Login = () => {
 			if (!response.ok) throw new Error(data.message || 'Login failed!');
 			localStorage.setItem('token', data.token);
 			setFormData({ email: '', password: '' });
-			setTimeout(() => navigate('/dashboard'), 1500);
+			navigate('/dashboard');
 		} catch (err) {
 			setError(err.message);
 		}

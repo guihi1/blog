@@ -49,7 +49,7 @@ const Register = () => {
 				password: '',
 				confirmPassword: '',
 			});
-			setTimeout(() => navigate('/dashboard'), 1500);
+			navigate('/dashboard');
 		} catch (err) {
 			setError(err.message);
 		}
