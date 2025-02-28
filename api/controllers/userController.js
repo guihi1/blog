@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
 
 	try {
 		const user = await userService.createUser(email, hashedPassword, username);
-		const token = generateToken(user.id);
+		const token = generateToken(user);
 		res.status(201).json({ token });
 	} catch (error) {
 		res.status(400).json({ message: error.message });
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 			return res.status(400).json({ message: 'Invalid password' });
 		}
 
-		const token = generateToken(user.id);
+		const token = generateToken(user);
 		res.status(201).json({ token });
 	} catch (error) {
 		res.status(400).json({ message: error.message });

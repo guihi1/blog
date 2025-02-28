@@ -3,9 +3,13 @@ import jwt from 'jsonwebtoken';
 const secretKey = process.env.JWT_SECRET;
 
 const generateToken = (user) => {
-	return jwt.sign({ id: user.id, email: user.email }, secretKey, {
-		expiresIn: '1h',
-	});
+	return jwt.sign(
+		{ id: user.id, email: user.email, role: user.role },
+		secretKey,
+		{
+			expiresIn: '1h',
+		},
+	);
 };
 
 const authenticateUser = (req, res, next) => {
